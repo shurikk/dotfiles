@@ -36,6 +36,10 @@ if type brew &>/dev/null; then
   autoload -Uz compinit && compinit -i
 fi
 
-eval "$(rbenv init -)"
-eval "$(pyenv init -)"
+autoload -U +X bashcompinit && bashcompinit
+. /usr/local/etc/bash_completion.d/az
 
+type rbenv &> /dev/null && eval "$(rbenv init -)"
+type pyenv &> /dev/null && eval "$(pyenv init -)"
+
+echo -n
