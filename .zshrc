@@ -27,7 +27,7 @@ bindkey -e
 
 export CLICOLOR=1
 export EDITOR=vim
-export PATH=~/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:$PATH
+export PATH=~/.rbenv/shims:~/go/bin:/usr/local/bin:/usr/bin:/bin:$PATH
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 
