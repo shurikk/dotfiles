@@ -24,6 +24,7 @@ bindkey -e
 
 . /usr/local/etc/profile.d/z.sh
 . /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+. /usr/local/etc/bash_completion.d/az
 
 export CLICOLOR=1
 export EDITOR=vim
