@@ -6,6 +6,7 @@ function set-prompt() {
 
   local _git="%B%F{13}${git_branch}%f%b"
   local _k8s=$(kubectl config get-contexts | grep "^*" | awk '{ print $2,"/",$5 }')
+  local _venv=""
   local _cwd="%B%F{33}${PWD}%f%b"
   local _status='%F{green}%n%f%F{cyan}@%m%f %B%F{%(?.green.red)}$%f%b '
 
@@ -13,7 +14,14 @@ function set-prompt() {
     _k8s="%B%F{13}${_k8s}%f%b"
   fi
 
-  PROMPT="%Bgit:%b "$_git$'\n'"%Bk8s:%b "$_k8s$'\n'$_cwd$'\n'$_status
+  if [ ! -z "$VIRTUAL_ENV" ]; then
+    [ ${PS1[1]} = "(" ] && export VIRTUAL_ENV_NAME=${PS1[(w)1]}
+    _venv="%Benv:%b %B%F{13}${VIRTUAL_ENV_NAME}%f%b"$'\n'
+  else
+    unset VIRTUAL_ENV_NAME
+  fi
+
+  PROMPT="%Bgit:%b "$_git$'\n'"%Bk8s:%b "$_k8s$'\n'$_venv$_cwd$'\n'$_status
 }
 
 setopt noprompt{bang,subst} prompt{cr,percent,sp}
