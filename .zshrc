@@ -6,12 +6,17 @@ function set-prompt() {
 
   local _git="%B%F{13}${git_branch}%f%b"
   local _k8s=$(kubectl config get-contexts | grep "^*" | awk '{ print $2,"/",$5 }')
+  local _proxy=""
   local _venv=""
   local _cwd="%B%F{33}${PWD}%f%b"
   local _status='%F{green}%n%f%F{cyan}@%m%f %B%F{%(?.green.red)}$%f%b '
 
   if [ ! -z "$_k8s" ]; then
     _k8s="%B%F{13}${_k8s}%f%b"
+  fi
+
+  if [ ! -z "$HTTPS_PROXY" ]; then
+    _proxy="%Bproxy:%b %B%F{13}${HTTPS_PROXY}%f%b"$'\n'
   fi
 
   if [ ! -z "$VIRTUAL_ENV" ]; then
@@ -21,8 +26,14 @@ function set-prompt() {
     unset VIRTUAL_ENV_NAME
   fi
 
-  PROMPT="%Bgit:%b "$_git$'\n'"%Bk8s:%b "$_k8s$'\n'$_venv$_cwd$'\n'$_status
+  PROMPT="%Bgit:%b "$_git$'\n'"%Bk8s:%b "$_k8s$'\n'$_proxy$_venv$_cwd$'\n'$_status
 }
+
+alias tunnel_on="ssh -fND 8888 desktop"
+alias tunnel_off="pkill -f '8888 desktop'"
+alias proxy_on="export HTTPS_PROXY=socks5://127.0.0.1:8888; tunnel_on"
+alias proxy_off="unset HTTPS_PROXY; tunnel_off"
+alias myip="curl https://ifconfig.co"
 
 setopt noprompt{bang,subst} prompt{cr,percent,sp}
 autoload -Uz add-zsh-hook
