@@ -7,6 +7,7 @@ function set-prompt() {
   local _git="%B%F{13}${git_branch}%f%b"
   local _k8s=$(kubectl config get-contexts | grep "^*" | awk '{ print $2,"/",$5 }')
   local _proxy=""
+  local _gw=$(dgw)
   local _venv=""
   local _cwd="%B%F{33}${PWD}%f%b"
   local _status='%F{green}%n%f%F{cyan}@%m%f %B%F{%(?.green.red)}$%f%b '
@@ -26,13 +27,16 @@ function set-prompt() {
     unset VIRTUAL_ENV_NAME
   fi
 
-  PROMPT="%Bgit:%b "$_git$'\n'"%Bk8s:%b "$_k8s$'\n'$_proxy$_venv$_cwd$'\n'$_status
+  PROMPT="%Bdgw:%b "$_gw$'\n'"%Bgit:%b "$_git$'\n'"%Bk8s:%b "$_k8s$'\n'$_proxy$_venv$_cwd$'\n'$_status
 }
 
+alias dgw="route -n get default | grep gateway | cut -d\  -f6"
+alias full_vpn_on="dgw > ~/.default_gateway && sudo route change default $(ifconfig gpd0 | grep "inet " | cut -d\  -f2)"
+alias full_vpn_off="sudo route change default \$(cat ~/.default_gateway)"
 alias tunnel_on="ssh -fND 8888 desktop"
 alias tunnel_off="pkill -f '8888 desktop'"
-alias proxy_on="export HTTPS_PROXY=socks5://127.0.0.1:8888; tunnel_on"
-alias proxy_off="unset HTTPS_PROXY; tunnel_off"
+alias proxy_on="export HTTPS_PROXY=socks5://127.0.0.1:8888"
+alias proxy_off="unset HTTPS_PROXY"
 alias myip="curl https://ifconfig.co"
 
 setopt noprompt{bang,subst} prompt{cr,percent,sp}
