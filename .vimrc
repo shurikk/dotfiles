@@ -1,6 +1,6 @@
 set backspace=indent,eol,start
 set ai
-set et
+set et nu rnu
 set sts=2
 set sta
 set ts=2

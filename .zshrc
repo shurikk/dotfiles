@@ -31,7 +31,7 @@ function set-prompt() {
 }
 
 alias dgw="route -n get default | grep gateway | cut -d\  -f6"
-alias full_vpn_on="dgw > ~/.default_gateway && sudo route change default $(ifconfig gpd0 | grep "inet " | cut -d\  -f2)"
+alias full_vpn_on="dgw > ~/.default_gateway && sudo route change default \$(ifconfig gpd0 | grep 'inet ' | cut -d\  -f2)"
 alias full_vpn_off="sudo route change default \$(cat ~/.default_gateway)"
 alias tunnel_on="ssh -fND 8888 desktop"
 alias tunnel_off="pkill -f '8888 desktop'"
