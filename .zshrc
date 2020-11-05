@@ -53,6 +53,7 @@ export EDITOR=vim
 export PATH=~/.rbenv/shims:~/go/bin:/usr/local/bin:/usr/bin:/bin:$PATH
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH="/usr/local/opt/node@10/bin:$PATH"
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
